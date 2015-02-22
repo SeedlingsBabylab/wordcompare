@@ -25,3 +25,6 @@ created. Then, run:
 ```
 
 This will start the GUI program.
+
+
+![wordcompare](/data/other/wordcompare.png)

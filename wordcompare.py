@@ -570,7 +570,7 @@ class MainWindow:
 
 
 
-        return unique_entries
+        return unique_entries[0:curr_rank + 1]
 
 
     def get_count(self, entry):

@@ -507,7 +507,7 @@ class MainWindow:
 
         """
 
-        # TODO: make sure that the top_n coresponds to rank instead of words
+
         if len(list_of_entries) < top_n:
             self.top_n_too_large_label = Label(self.main_frame,
                                                fg="red",
@@ -607,7 +607,7 @@ class MainWindow:
                 if visit == 9999:
                     visit = ""
                 file.write(entry.word + "   " + str(entry.count) + "    " +
-                           entry.coder + "    " + entry.child + "    " +
+                           entry.coder + "    " + str(entry.child) + "    " +
                            str(visit) + "\n")
 
     def export_video_counts(self):
@@ -624,7 +624,7 @@ class MainWindow:
                 if visit == 9999:
                     visit = ""
                 file.write(entry.word + "   " + str(entry.count) + "    " +
-                           entry.coder + "    " + entry.child + "    " +
+                           entry.coder + "    " + str(entry.child) + "    " +
                            str(visit) + "\n")
 
     def export(self):

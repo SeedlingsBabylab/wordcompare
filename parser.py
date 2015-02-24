@@ -1,5 +1,6 @@
 import csv
 import re
+import os
 from collections import Counter
 
 class AudioFileParser:
@@ -147,11 +148,18 @@ class MonthSpecificParser:
 class RawAudioDataParser:
 
     def __init__(self, raw_file):
-        self.raw_file = raw_file
+        self.raw_filepath = raw_file
+
+        self.month = None
+        self.coder = None
+        self.child = None
+        self.filename = self.parse_filename()
+
         self.counted_words = None
         self.raw_entries = None
-        self.entries = self.parse_file(raw_file)
-        self.month = None
+        self.entries = self.parse_file(self.raw_filepath)
+
+
 
 
 
@@ -178,38 +186,59 @@ class RawAudioDataParser:
         self.raw_entries = raw_entries
         self.counted_words = Counter(words)
 
-        #visit = self.parse_visit()
-        # quick fix for now
-        visit = 9999
+        self.parse_filename()
+
         for word in self.counted_words:
-            entries.append(VideoEntry(word=word, count=self.counted_words[word], visit=visit))
+            entries.append(AudioEntry(word=word, visit=self.month,
+                                      count=self.counted_words[word],
+                                      coder= self.coder, child=self.child))
         return entries
 
 
-    def parse_visit(self):
+    def parse_filename(self):
         """
         (ignore for now)
         Returns:
             the month number parsed from the filename
         """
-        regx = re.compile('\d+_\d+')
-        numbers = regx.search(self.raw_file)
 
-        numbers_split = numbers.string.split("_")
-        visit = int(numbers_split[1])
+        (filepath, filename) = os.path.split(self.raw_filepath)
 
-        return visit
+        print filename
+
+        filename_split = filename.split("_")
+        self.child = int(filename_split[0])
+        self.month = int(filename_split[1])
+        coder_string = re.search("coder[A-Z]+", filename)
+        if coder_string:  # make sure there's a match
+            self.coder = coder_string.group().split("coder")[1]
+        else:
+            print "This file has no \"coder\" tag embeded in the filename"
+        print self.coder
+        print filename_split
+
+        return filename
+
+
+
+        #return visit
 
 
 class RawVideoDataParser:
 
     def __init__(self, raw_file):
-        self.raw_file = raw_file
-        self.counted_words = None
-        self.raw_entries = None
-        self.entries = self.parse_file(raw_file)
+        self.raw_filepath = raw_file
 
         self.month = None
+        self.coder = None
+        self.child = None
+        self.filename = self.parse_filename()
+
+        self.counted_words = None
+        self.raw_entries = None
+        self.entries = self.parse_file(self.raw_filepath)
+
+
 
 
     def parse_file(self, file):
@@ -235,28 +264,35 @@ class RawVideoDataParser:
         self.raw_entries = raw_entries
         self.counted_words = Counter(words)
 
-        #visit = self.parse_visit()
-        # quick fix for now
-        visit = 9999
         for word in self.counted_words:
-            entries.append(AudioEntry(word=word, count=self.counted_words[word], visit=visit))
+            entries.append(VideoEntry(word=word, visit=self.month,
+                                      count=self.counted_words[word],
+                                      coder= self.coder, child=self.child))
         return entries
 
-    def parse_visit(self):
+    def parse_filename(self):
         """
+        (ignore for now)
         Returns:
             the month number parsed from the filename
         """
-        regx = re.compile(r'\d+_\d+')
-        numbers = regx.search(self.raw_file)
 
-        numbers_split = numbers.string.split("_")
-        visit = int(numbers_split[1])
+        (filepath, filename) = os.path.split(self.raw_filepath)
 
-        return visit
+        print filename
 
+        filename_split = filename.split("_")
+        self.child = int(filename_split[0])
+        self.month = int(filename_split[1])
+        coder_string = re.search("coder[A-Z]+", filename)
+        if coder_string:  # make sure there's a match
+            self.coder = coder_string.group().split("coder")[1]
+        else:
+            print "This file has no \"coder\" tag embeded in the filename"
+        print self.coder
+        print filename_split
 
-
+        return filename
 
 
 

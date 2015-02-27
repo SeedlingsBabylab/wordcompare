@@ -2,10 +2,8 @@ from Tkinter import *
 import tkFileDialog
 from collections import Counter
 import operator
-import parser
 
 from parser import *
-
 
 class MainWindow:
 

@@ -177,6 +177,8 @@ class RawAudioDataParser:
             reader = csv.reader(file, delimiter=',')
             for row in reader:
                 print ', '.join(row)
+                if row[6] == "NA":
+                    continue
                 raw_entries.append(RawAudioEntry(row[0], row[1],
                                                  row[2], row[3],
                                                  row[4], row[5],
@@ -255,6 +257,8 @@ class RawVideoDataParser:
             reader = csv.reader(file, delimiter=',')
             for row in reader:
                 print ', '.join(row)
+                if row[7] == "NA":
+                    continue
                 raw_entries.append(RawVideoEntry(row[0], row[1],
                                              row[2], row[3],
                                              row[4], row[5],

@@ -660,21 +660,26 @@ class MainWindow:
         unique_words = sorted(unique_words, key=self.get_count_from_rank, reverse=True) # sort
 
         with open(export_file, "w") as file:
-            file.write("rank   source   word      in_general  count\n") # print header
-            for rank in unique_words:
+            file.write("rank   source   word      in_general  count\n\n") # print header
+
+            for rank in self.top_unique_audio:
 
                 for entry in rank:
 
-                    if type(entry) is AudioEntry: # if entry is AudioEntry, print it as such
-                        file.write(str(entry.rank) + "      audio   " +
-                                   entry.word + "      " +
-                                   str(entry.in_general) + "  " +
-                                   str(entry.count) + "\n")
-                    else: # if entry is VideoEntry, print it as such
-                        file.write(str(entry.rank) + "      video   " +
-                                   entry.word + "      " +
-                                   str(entry.in_general) + "  " +
-                                   str(entry.count) + "\n")
+                    file.write(str(entry.rank) + "      audio   " +
+                    entry.word + "      " +
+                    str(entry.in_general) + "  " +
+                    str(entry.count) + "\n")
+            file.write("\nrank   source   word      in_general  count\n\n")
+            for rank in self.top_unique_video:
+
+                for entry in rank:
+
+                    file.write(str(entry.rank) + "      video   " +
+                    entry.word + "      " +
+                    str(entry.in_general) + "  " +
+                    str(entry.count) + "\n")
+
 
 
     def clear_all(self):

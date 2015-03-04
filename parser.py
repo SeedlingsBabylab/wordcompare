@@ -209,8 +209,8 @@ class RawAudioDataParser:
         print filename
 
         filename_split = filename.split("_")
-        self.child = int(filename_split[0])
-        self.month = int(filename_split[1])
+        self.child = filename_split[0]
+        self.month = filename_split[1]
         coder_string = re.search("coder[A-Z]+", filename)
         if coder_string:  # make sure there's a match
             self.coder = coder_string.group().split("coder")[1]
@@ -286,8 +286,8 @@ class RawVideoDataParser:
         print filename
 
         filename_split = filename.split("_")
-        self.child = int(filename_split[0])
-        self.month = int(filename_split[1])
+        self.child = filename_split[0]
+        self.month = filename_split[1]
         coder_string = re.search("coder[A-Z]+", filename)
         if coder_string:  # make sure there's a match
             self.coder = coder_string.group().split("coder")[1]

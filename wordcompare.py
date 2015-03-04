@@ -660,7 +660,7 @@ class MainWindow:
         unique_words = sorted(unique_words, key=self.get_count_from_rank, reverse=True) # sort
 
         with open(export_file, "w") as file:
-            file.write("rank   source   word      in_general  count\n\n") # print header
+            file.write("\"rank\"   \"source\"   \"word\"      \"in_general\"  \"count\"\n\n") # print header
 
             for rank in self.top_unique_audio:
 
@@ -670,7 +670,7 @@ class MainWindow:
                     entry.word + "      " +
                     str(entry.in_general) + "  " +
                     str(entry.count) + "\n")
-            file.write("\nrank   source   word      in_general  count\n\n")
+
             for rank in self.top_unique_video:
 
                 for entry in rank:

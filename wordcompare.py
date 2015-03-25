@@ -259,7 +259,7 @@ class MainWindow:
                 continue
             month_menu.add_command(label=str(month), command=lambda month=month: self.load_specific_month(month))
 
-        select_month.grid(row = 12, column = 1)
+        select_month.grid(row=12, column=1)
 
 
     def load_specific_month(self, month_selected):
@@ -380,7 +380,6 @@ class MainWindow:
         for index, entry in enumerate(self.video_entries):
             self.video_box.insert(index, entry.word)
 
-
     def load_top_audio(self):
         """
         Check to make sure general, specific, and audio
@@ -415,7 +414,7 @@ class MainWindow:
         for rank, words in enumerate(self.top_unique_audio):
             for index, word in enumerate(words):
                 self.top_unique_audio_box.insert(box_count,
-                                                 str(word.rank)+ ". " +
+                                                 str(word.rank) + ". " +
                                                  word.word +
                                                  " - " + str(word.count))
                 box_count = box_count + 1
@@ -450,7 +449,6 @@ class MainWindow:
         else:
             self.missing_files_label.grid_remove()
 
-
         if self.month_selected is None:
             self.no_month_selected_label.grid(row=14, column=5, columnspan=1)
         else:
@@ -468,7 +466,7 @@ class MainWindow:
                                                  str(word.rank)+ ". " +
                                                  word.word +
                                                  " - " + str(word.count))
-                box_count = box_count + 1
+                box_count += 1
 
         self.unique_video_found = True
 
@@ -524,8 +522,8 @@ class MainWindow:
         unique_entries = [[] for i in range(top_n)]
 
         curr_rank = 0
-        prev_count = 0
-        curr_count = 0
+        prev_count = None
+        curr_count = None
 
         for entry in sorted_by_count:
 
@@ -534,21 +532,18 @@ class MainWindow:
             else:
                 entry.in_general = False
 
-            if curr_count == 0:
-                unique_entries[curr_rank].append(entry)
-                prev_count = entry.count
-                entry.rank = 1
-                curr_count = 5 # random number, just to get past this if statement
-                continue
-
-
             curr_count = entry.count
 
+            if prev_count is None:
+                if entry.word not in self.specific_month_words:
+                    unique_entries[curr_rank].append(entry)
+                    prev_count = entry.count
+                    entry.rank = 1
+                    continue
 
 
             if curr_rank >= top_n:
                 break
-
 
 
             if entry.word not in self.specific_month_words:
@@ -596,8 +591,8 @@ class MainWindow:
 
         export_file = tkFileDialog.asksaveasfilename()
 
-        with open(export_file, "w") as file:
-
+        with open(export_file, "wU") as file:
+            csvwriter = csv.writer(file)
             file.write("\"basic_level\"   \"freq\"   \"coder\"   \"child\"   \"visit\"\n")
 
             for entry in self.audio_entries:

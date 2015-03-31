@@ -591,7 +591,7 @@ class MainWindow:
 
         export_file = tkFileDialog.asksaveasfilename()
 
-        with open(export_file, "wU") as file:
+        with open(export_file, "w") as file:
             csvwriter = csv.writer(file)
             file.write("\"basic_level\"   \"freq\"   \"coder\"   \"child\"   \"visit\"\n")
 

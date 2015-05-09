@@ -46,7 +46,7 @@ class AudioFileParser:
                     entries.append(AudioEntry(word=entry[0], count=int(entry[1]),
                                               coder=entry[2], child=entry[3], visit=int(entry[4])))
 
-
+        print "audio entries: " + str(entries)
         return entries
         #return AudioList(entries)
 
@@ -175,6 +175,7 @@ class RawAudioDataParser:
 
         with open(file, 'rU') as file:
             reader = csv.reader(file, delimiter=',')
+            reader.next()   # get past header
             for row in reader:
                 print ', '.join(row)
                 if row[6] == "NA":
@@ -245,8 +246,8 @@ class RawVideoDataParser:
 
     def parse_file(self, file):
 
-        # entries[] is a list of AudioEntries
-        # raw_entries[] is a list of RawAudioEntries
+        # entries[] is a list of VideoEntries
+        # raw_entries[] is a list of RawVideoEntries
         entries = []
         raw_entries = []
 
@@ -255,6 +256,7 @@ class RawVideoDataParser:
 
         with open(file, 'rU') as file:
             reader = csv.reader(file, delimiter=',')
+            reader.next()   # move past header
             for row in reader:
                 print ', '.join(row)
                 if row[7] == "NA":

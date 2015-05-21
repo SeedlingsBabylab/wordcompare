@@ -3,7 +3,7 @@ import tkFileDialog
 from collections import Counter
 import operator
 
-from parser import *
+from wordparser import *
 
 class MainWindow:
 

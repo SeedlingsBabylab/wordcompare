@@ -1,1 +1,1 @@
-from parser import *
+from wordparser import *
